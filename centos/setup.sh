@@ -65,6 +65,18 @@ else
 fi
 
 
+read -p "$cecho Do you wish to Install Jenkins CI server? $nl 1. Enter Y and press enter to install $nl 2. Enter N to skip installation $nlp" -r
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+	
+	wget http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo
+        sudo mv jenkins.repo /etc/yum.repos.d/jenkins.repo
+	sudo yum install tomcat 
+
+else 
+	echo "Skipping...."
+fi
+
+
 read -p "$cecho Do you wish to Install utilities such as ssh and telnet? $nl 1. Enter Y and press enter to install $nl 2. Enter N to skip installation $nlp" -r
 if [[ $REPLY =~ ^[Yy]$ ]]; then
 	
