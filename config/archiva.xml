@@ -1,0 +1,19 @@
+ <Context path="/archiva"
+          docBase="/usr/local/archiva/archiva.war">
+
+ <Resource name="jdbc/users" auth="Container" type="javax.sql.DataSource"
+           username="sa"
+           password=""
+           driverClassName="org.apache.derby.jdbc.EmbeddedDriver"
+           url="jdbc:derby:/usr/local/archiva/users;create=true" />
+
+ <Resource name="jdbc/archiva" auth="Container" type="javax.sql.DataSource"
+           username="sa"
+           password=""
+           driverClassName="org.apache.derby.jdbc.EmbeddedDriver"
+           url="jdbc:derby:/usr/local/archiva/database/archiva;create=true" />
+
+ <Resource name="mail/Session" auth="Container"
+            type="javax.mail.Session"
+            mail.smtp.host="localhost"/>
+ </Context>
