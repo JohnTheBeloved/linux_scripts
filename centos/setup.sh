@@ -82,6 +82,8 @@ else oo
 	echo "Skipping...."
 fi
 
+sudo groupadd appservers
+sudo groupadd databaseservers
 
 read -p "$cecho Do you wish to Install mysql database server? $nl 1. Enter Y and press enter to install $nl 2. Enter N to skip installation $nlp" -r
 if [[ $REPLY =~ ^[Yy]$ ]] && [[ -f mysqlinstall.sh ]]; then

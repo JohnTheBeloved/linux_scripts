@@ -35,7 +35,7 @@ else
 fi
 
 if [[ -f $nexus_bundle ]]; then
-   
+   sudo useradd -G appservers nexus
    echo "$cecho Extracting $nexus_bundle archive $nl"
    sudo tar -xvf $nexus_bundle --directory /usr/local 
    rm $nexus_bundle
@@ -43,7 +43,17 @@ if [[ -f $nexus_bundle ]]; then
    sudo chmod -Rv 777 /usr/local/sonatype-work
    sudo ln -sf /usr/local/nexus-$nexus_version /usr/local/nexus
    cd /usr/local/nexus
-   ./bin/nexus start
+   sudo chown -Rv nexus:appservers /usr/local/nexus-$nexus_version
+   sudo chown -Rv nexus:apservers /sonatype-work
+   sudo cp /usr/local/nexus/bin/nexus /etc/init.d/nexus
+   sudo chmod a+x /etc/init.d/nexus
+   sudo cd /etc/init.d/nexus 
+   chkconfig --add nexus
+   chkconfig --levels 345 nexus on
+   echo "$cecho Please edit init.d/nexus script and set $nl 1. NEXUS_HOME=/usr/local/nexus, $nl 2. RUN_AS_USER=nexus and 3 PIDDIR=/var/run $nl"
+   sudo chown root /etc/init.d/nexus
+   sudo chmod 755 /etc/init.d/nexus
+   sudo nano /etc/init.d/nexus
    
 fi
 

@@ -29,11 +29,18 @@ if [[ -f apache-archiva-1.3.9.war ]]; then
       
    echo "$cecho Moving apache-archiva-1.3.9.war to /usr/local/archiva/archiva.war $nl"
    sudo mkdir -p /usr/local/archiva
+   sudo chmod -Rv 777 /usr/local/archiva
    
    sudo mv apache-archiva-1.3.9.war /usr/local/archiva/archiva.war
   
-   wget http://central.maven.org/maven2/org/apache/derby/derby/10.1.3.1/derby-10.1.3.1.jar
-   sudo mv derby-10.1.3.1.jar /usr/share/tomcat/lib/derby-10.1.3.1.jar
+   wget http://www.eu.apache.org/dist//db/derby/db-derby-10.12.1.1/db-derby-10.12.1.1-bin.zip
+   unzip db-derby-10.12.1.1-bin.zip
+   sudo mv db-derby-10.12.1.1-bin/lib/derby.jar db-derby-10.12.1.1-bin/lib/derbytools.jar /usr/share/tomcat/lib/
+   rm -rf db-derby-10.12.1.1-bin
+   rm db-derby-10.12.1.1-bin.zip
+
+   wget  http://central.maven.org/maven2/org/apache/tomcat/tomcat-dbcp/7.0.30/tomcat-dbcp-7.0.30.jar
+   sudo mv tomcat-dbcp-7.0.30.jar /usr/share/tomcat/lib/
 
    wget http://repo2.maven.org/maven2/javax/mail/mail/1.4.1/mail-1.4.1.jar
    sudo mv mail-1.4.1.jar /usr/share/tomcat/lib/mail-1.4.1.jar
@@ -42,9 +49,12 @@ if [[ -f apache-archiva-1.3.9.war ]]; then
    sudo mv activation-1.1.1.jar /usr/share/tomcat/lib/activation-1.1.1.jar  
 
    echo "Copying archiva configuration file from conf/archiva.xml to /etc/tomcat/Catalina/localhost/"
-   read "Please, make sure you've added javamail jars(activation.jar and mail.jar) to java lib or tomcat lib $nl, Press enter to continue" -r
- 
+   read -p "Please, make sure you've added javamail jars(activation.jar and mail.jar) to java lib or tomcat lib $nl, Press enter to continue" -r
+   
+   echo "$cecho Restarting tomcat service $nl" 
+
    sudo service tomcat restart
+
    tail -f /var/log/tomcat/*.*
    
 fi
