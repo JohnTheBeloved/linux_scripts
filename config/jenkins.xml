@@ -1,0 +1,4 @@
+ <Context path="/jenkins"
+          docBase="/usr/local/jenkins/jenkins.war">
+ 
+ </Context>

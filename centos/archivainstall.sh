@@ -23,8 +23,7 @@ else
 fi
 
 if [[ -f apache-archiva-1.3.9.war ]]; then 
-   
-   sudo cp ../config/archiva.xml /etc/tomcat/Catalina/localhost/archiva.xml   
+     
    read -p "$cecho Please set $nl appserver.home=/usr/share/tomcat(CATALINA_HOME)(CATALINA_HOME) in war WEB-INF/classes/application.properties file and $nl appserver.base=/usr/share/tomcat in war WEB-INF/classes/application.properties file $nl OR set enviromnent variable : export CATALINA_OPTS='-Dappserver.home=CATALINA_HOME -Dappserver.base=CATALINA_HOME' $nl Press Enter to continue after setting the configs $nlp" -r
       
    echo "$cecho Moving apache-archiva-1.3.9.war to /usr/local/archiva/archiva.war $nl"
@@ -49,6 +48,8 @@ if [[ -f apache-archiva-1.3.9.war ]]; then
    sudo mv activation-1.1.1.jar /usr/share/tomcat/lib/activation-1.1.1.jar  
 
    echo "Copying archiva configuration file from conf/archiva.xml to /etc/tomcat/Catalina/localhost/"
+   
+   sudo cp ../config/archiva.xml /etc/tomcat/Catalina/localhost/archiva.xml 
    read -p "Please, make sure you've added javamail jars(activation.jar and mail.jar) to java lib or tomcat lib $nl, Press enter to continue" -r
    
    echo "$cecho Restarting tomcat service $nl" 

@@ -27,6 +27,11 @@ fi
 
 export http_proxy=$http_proxy
 export https_proxy=$http_proxy
+printf "\nexport http_proxy=$http_proxy \nexport https_proxy=$http_proxy" | sudo tee /etc/profile.d/proxy
+printf "\nexport http_proxy=$http_proxy \nexport https_proxy=$http_proxy" | sudo tee -a ~/.bashrc
+#printf "Defaults    env_keep += \"http_proxy https_proxy\"" | sudo tee -a /etc/sudoers
+
+
 echo "$cecho http_proxy is now $http_proxy"
 
 
