@@ -1,7 +1,7 @@
 #!/bin/bash
 
 nl=`echo  $'\n'`
-pwd=`pwd`
+wd=`pwd` #current Working Directory
 
 if [ "$(whoami)" != "root" ]; then
   echo "Sorry, you are not root"
@@ -106,23 +106,23 @@ fi
 
 echo -e "\034[30m Installing Softwares from aptitude PPA Repositories"
 
-test "$(read -p 'Install gtodo? ' R ; echo $R)" = "Y" && (sudo apt-get install -y  skype && echo -e "\034[30m Installed skype. $nl" ) || (echo "skipped, not installed")
+test "$(read -p 'Install gtodo? [Y/N]' R ; echo $R)" = "Y" && (sudo apt-get install -y  skype && echo -e "\034[30m Installed skype. $nl" ) || (echo "skipped, not installed")
 
-test "$(read -p 'Install System Information Utility Programs? ' R ; echo $R)" = "Y" && (sudo apt-get install -y  hardinfo && echo -e "\034[30m Installed hardinfo. $nl" ) || (echo "skipped, not installed")
+test "$(read -p 'Install System Information Utility Programs? [Y/N]' R ; echo $R)" = "Y" && (sudo apt-get install -y  hardinfo && echo -e "\034[30m Installed hardinfo. $nl" ) || (echo "skipped, not installed")
  
-test "$(read -p 'Install Text and terminal utils? ' R ; echo $R)" = "Y" && (sudo apt-get install -y sublime-text terminator && echo -e "\034[30m Installed Sublime Text. $nl" ) || (echo "skipped, not installed")
+test "$(read -p 'Install Text and terminal utils? [Y/N]' R ; echo $R)" = "Y" && (sudo apt-get install -y sublime-text terminator && echo -e "\034[30m Installed Sublime Text. $nl" ) || (echo "skipped, not installed")
 
-test "$(read -p 'Install git, npm ? ' R ; echo $R)" = "Y" && (sudo apt-get install -y git npm && echo -e "\034[30m Installed git. $nl" ) || (echo "skipped, not installed")
+test "$(read -p 'Install git, npm ?  [Y/N]' R ; echo $R)" = "Y" && (sudo apt-get install -y git npm && echo -e "\034[30m Installed git. $nl" ) || (echo "skipped, not installed")
 
-test "$(read -p 'Install java&maven ? ' R ; echo $R)" = "Y" && (sudo apt-get install -y oracle-java7-installer oracle-java8-installer maven && echo -e "\034[30m Installed Maven.  $nl" ) || (echo "skipped, not installed")
+test "$(read -p 'Install java&maven ? [Y/N]' R ; echo $R)" = "Y" && (sudo apt-get install -y oracle-java7-installer oracle-java8-installer maven && echo -e "\034[30m Installed Maven.  $nl" ) || (echo "skipped, not installed")
 
-test "$(read -p 'Install simple IDEs ? ' R ; echo $R)" = "Y" && (sudo apt-get install -y netbeans eclipse-platform eclipse-jdt  && echo -e "\034[30m Installed netbeans.  $nl" ) || (echo "skipped, not installed")
+test "$(read -p 'Install simple IDEs ? [Y/N]' R ; echo $R)" = "Y" && (sudo apt-get install -y netbeans eclipse-platform eclipse-jdt  && echo -e "\034[30m Installed netbeans.  $nl" ) || (echo "skipped, not installed")
  
-test "$(read -p 'Install mysql database and tools ? ' R ; echo $R)" = "Y" && (sudo apt-get install -y mysql-server mysql-workbench && echo -e "\034[30m Installed mysql-server.  $nl" ) || (echo "skipped, not installed")
+test "$(read -p 'Install mysql database and tools ? [Y/N]' R ; echo $R)" = "Y" && (sudo apt-get install -y mysql-server mysql-workbench && echo -e "\034[30m Installed mysql-server.  $nl" ) || (echo "skipped, not installed")
   
-test "$(read -p 'Install web and app servers? ' R ; echo $R)" = "Y" && (sudo apt-get install -y apache2 tomcat7 tomcat7-user && echo -e "\034[30m Installed Apache2.  $nl" ) || (echo "skipped, not installed")
+test "$(read -p 'Install web and app servers? [Y/N]' R ; echo $R)" = "Y" && (sudo apt-get install -y apache2 tomcat7 tomcat7-user && echo -e "\034[30m Installed Apache2.  $nl" ) || (echo "skipped, not installed")
 
-test "$(read -p 'Install terminal downloader utils ? ' R ; echo $R)" = "Y" && (sudo apt-get install -y curl axel && echo -e "\034[30m Installed curl.  $nl" ) || (echo "skipped, not installed")
+test "$(read -p 'Install terminal downloader utils ? [Y/N]' R ; echo $R)" = "Y" && (sudo apt-get install -y curl axel && echo -e "\034[30m Installed curl.  $nl" ) || (echo "skipped, not installed")
 
 
 #Manuall by Curl
@@ -139,7 +139,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 	curl -sSL https://get.rvm.io | bash -s stable --ruby=jruby --gems=rails,puma &&  echo "Installed RVM WITH JRUBY"
 fi
 
-source "/home/johnthebeloved/.sdkman/bin/sdkman-init.sh"
+source "~/.sdkman/bin/sdkman-init.sh"
 
 gvm install grails && "Installed grails..."
 
@@ -187,19 +187,19 @@ fi
 test -d $IDEsDir && (echo "IDEs Folder exists in $IDEsDir") || (echo "IDEs folder doesnt exist in $manualInstallsDir, Will create it" ; sudo /bin/mkdir -p $IDEsDir)
 
 #Downloading Eclipse
- 
+ cd $wd
 if [[ $(getconf LONG_BIT) = "64" ]]
 then
 	echo "64bit Detected" &&
 	echo "Downloading Eclipse IDE for 64 bit" &&
 	wget http://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/helios/SR1/eclipse-jee-helios-SR1-linux-gtk-x86_64.tar.gz  &&
-	sudo tar -xzvf eclipse-jee-helios-SR1-linux-gtk-x86_64.tar.gz --directory $IDEsDir &&
+	sudo tar -xvf eclipse-jee-helios-SR1-linux-gtk-x86_64.tar.gz --directory $IDEsDir &&
 	rm -f eclipse-jee-helios-SR1-linux-gtk-x86_64.tar.gz
 else
 	echo "32bit Detected" &&
 	echo "Installing Eclipse IDE" &&
 	wget http://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/helios/SR1/eclipse-jee-helios-SR1-linux-gtk.tar.gz &&
-	sudo tar -xzvf eclipse-jee-helios-SR1-linux-gtk.tar.gz  --directory $IDEsDir &&
+	sudo tar -xvf eclipse-jee-helios-SR1-linux-gtk.tar.gz  --directory $IDEsDir &&
 	rm -f sudo tar -xvf eclipse-jee-helios-SR1-linux-gtk.tar.gz
 fi
 
@@ -217,9 +217,11 @@ test -d $jbossDir && (echo "JBOSS Folder exists in $jbossDir") || (echo "JBOSS f
 
 test -d $IDEsDir && (echo "IDEs Folder exists in $IDEsDir") || (echo "IDes folder doesnt exist in $IDEsDir, Will create it" ; sudo /bin/mkdir $IDEsDir)
 
+jbossas7downloadurl="http://download.jboss.org/jbossas/7.0/jboss-as-7.0.1.Final/jboss-as-web-7.0.1.Final.zip"
 oraclejava8downloadurl="http://download.oracle.com/otn-pub/java/jdk/8u60-b27/jdk-8u60-linux-x64.tar.gz"
 netbeans8downloadurl="http://download.netbeans.org/netbeans/8.0.2/final/bundles/netbeans-8.0.2-linux.sh"
 eclipsedownloadurl="https://eclipse.org/downloads/download.php?file=/oomph/epp/mars/R1a/eclipse-inst-linux32.tar.gz&mirror_id=1068"
+ggtsdownloadurl="http://dist.springsource.com/release/STS/3.6.4.RELEASE/dist/e4.4/groovy-grails-tool-suite-3.6.4.RELEASE-e4.4.2-linux-gtk.tar.gz"
 
 
 echo "Will try to download jdk1.8.0_60 now from url $oraclejava8downloadurl, enter new url for you prefer a different java8 version,then else press enter..."
@@ -230,7 +232,7 @@ if [[ $newurl ]]; then
 	oraclejava8downloadurl=$newurl
 fi
 
-read -p "Do you wish to install JAVA Install JAVA1.8 $nl" -r
+read -p "Do you wish to manualy download and install JAVA1.8 $nl" -r
 if [[ $REPLY =~ ^[Yy]$ ]]; then
 	if [[ -f java8Dir.tar.gz ]]; then
 		while read -p "java archive detected, Enter Y to download it again, N to continue $nl" -r
@@ -260,9 +262,8 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 fi
  
 #JBOSS7
-jbossas7downloadurl="http://download.jboss.org/jbossas/7.0/jboss-as-7.0.1.Final/jboss-as-web-7.0.1.Final.zip"
 
-echo "Will try to download jbossas7 now from url $jbossas7downloadurl, enter new url for you prefer a different java8 version,then else press enter..."
+echo "Will try to download jbossas7 now from url $jbossas7downloadurl, enter new url for you prefer a different jboss version,then else press enter..."
  
 read newurl  
 
@@ -298,6 +299,8 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 
 	fi
 fi
+
+cd $wd
  
 echo "Creating Development Folder"
 #Develop folder
